@@ -1,9 +1,9 @@
 name: Inflation Pipeline
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "0 3 * * *"  # roda todo dia às 03:00 UTC
+  push:
+    tags:
+      - "v*"
 
 jobs:
   run-pipelines:
@@ -18,19 +18,42 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Selic Over pipeline
-        run: python -m src.pipelines.selic_over
-
-      - name: Run Selic Meta pipeline
-        run: python -m src.pipelines.selic_meta
+      - name: Run all pipelines automatically
+        run: |
+          echo "Executando todos os pipelines em src/pipelines/"
+          for file in src/pipelines/*.py; do
+            module=$(basename "$file" .py)
+            echo "Rodando pipeline: $module"
+            python -m src.pipelines.$module
+          done
 
       - name: Upload raw data
         uses: actions/upload-artifact@v4
         with:
           name: raw-data
-          path: data/raw/*.csv
+          path: data/raw/*
+
+      - name: Upload processed data
+        uses: actions/upload-artifact@v4
+        with:
+          name: processed-data
+          path: data/processed/*
+
+      - name: Upload outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: outputs
+          path: data/output/*
