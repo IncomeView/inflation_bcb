@@ -1,0 +1,1 @@
+SGS - Sistema gerador de séries temporais
