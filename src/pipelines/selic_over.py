@@ -1,6 +1,7 @@
 from pathlib import Path
+
+from src.api.sgs_series import get_bc_full_series, get_last_valid_date
 from src.config.series_config import get_first_date
-from src.api.sgs_series import get_last_valid_date, get_bc_full_series
 from src.utils.logging import get_logger
 
 logger = get_logger(__name__)

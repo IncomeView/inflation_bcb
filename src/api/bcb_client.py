@@ -1,6 +1,8 @@
 import time
-import requests
 from typing import Any, Dict, List
+
+import requests
+
 from src.utils.logging import get_logger
 
 logger = get_logger(__name__)

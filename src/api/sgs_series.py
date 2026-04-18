@@ -1,6 +1,8 @@
+from datetime import datetime, timedelta
+
 import pandas as pd
 import requests
-from datetime import datetime, timedelta
+
 from src.api.bcb_client import BCBClient
 from src.utils.logging import get_logger
 
