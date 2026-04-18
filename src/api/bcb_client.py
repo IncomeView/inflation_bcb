@@ -1,6 +1,9 @@
 import time
 import requests
 from typing import Any, Dict, List
+from src.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 class BCBClient:
@@ -27,72 +30,65 @@ class BCBClient:
         timeout: int = DEFAULT_TIMEOUT,
     ) -> List[Dict[str, Any]]:
 
-#        Faz requisição à API do BCB (SGS) com:
-#        - timeout
-#        - retry com backoff exponencial
-#        - detecção de HTML
-#        - validação de JSON
-#        Retorna SEMPRE uma lista de dicionários (ou lança RuntimeError).
-
         url = BCBClient._build_url(codigo_serie, data_inicial, data_final)
+        logger.info(
+            f"Iniciando requisição ao SGS | Série={codigo_serie} | "
+            f"Período={data_inicial} → {data_final}"
+        )
+
         last_error = None
+
         for attempt in range(1, retries + 1):
             try:
+                logger.info(f"[Tentativa {attempt}] Chamando URL: {url}")
                 response = requests.get(url, timeout=timeout)
 
-                # Status HTTP diferente de 200
                 if response.status_code != 200:
-                    msg = (f"[Tentativa {attempt}] Status {response.status_code} ao chamar SGS: {url}")
-                    print(msg)
+                    msg = f"[Tentativa {attempt}] Status {response.status_code} ao chamar SGS"
+                    logger.warning(msg)
                     last_error = RuntimeError(msg)
                 else:
                     text = response.text.strip()
 
-                    # Resposta vazia
                     if not text:
-                        msg = f"[Tentativa {attempt}] SGS retornou resposta vazia: {url}"
-                        print(msg)
+                        msg = f"[Tentativa {attempt}] Resposta vazia do SGS"
+                        logger.warning(msg)
                         last_error = RuntimeError(msg)
 
-                    # HTML em vez de JSON
                     elif text.startswith("<"):
-                        msg = f"[Tentativa {attempt}] SGS retornou HTML em vez de JSON: {url}"
-                        print(msg)
+                        msg = f"[Tentativa {attempt}] HTML recebido em vez de JSON"
+                        logger.warning(msg)
                         last_error = RuntimeError(msg)
 
                     else:
-                        # Tenta interpretar como JSON
                         try:
                             data = response.json()
 
-                            # Garantir que seja lista
                             if isinstance(data, dict):
-                                # SGS normalmente retorna lista; se vier dict, algo estranho aconteceu
-                                msg = (f"[Tentativa {attempt}] JSON inesperado (dict) recebido do SGS: {url}")
-                                print(msg)
+                                msg = f"[Tentativa {attempt}] JSON inesperado (dict) recebido"
+                                logger.warning(msg)
                                 last_error = RuntimeError(msg)
                             else:
                                 return data
 
                         except Exception as e:
-                            msg = f"[Tentativa {attempt}] Erro ao decodificar JSON do SGS: {e}"
-                            print(msg)
+                            msg = f"[Tentativa {attempt}] Erro ao decodificar JSON: {e}"
+                            logger.error(msg)
                             last_error = RuntimeError(msg)
 
             except requests.Timeout:
-                msg = f"[Tentativa {attempt}] Timeout ao chamar SGS: {url}"
-                print(msg)
+                msg = f"[Tentativa {attempt}] Timeout ao chamar SGS"
+                logger.error(msg)
                 last_error = RuntimeError(msg)
 
             except requests.RequestException as e:
                 msg = f"[Tentativa {attempt}] Erro de rede ao chamar SGS: {e}"
-                print(msg)
+                logger.error(msg)
                 last_error = RuntimeError(msg)
 
-            # Se chegou aqui, falhou nesta tentativa → espera e tenta de novo
             sleep_time = backoff * attempt
-            print(f"Aguardando {sleep_time}s antes da próxima tentativa...")
+            logger.info(f"Aguardando {sleep_time}s antes da próxima tentativa...")
             time.sleep(sleep_time)
 
-        # Se todas as tentativas falharem, levanta o último erro registrado
+        logger.error(f"Falha após {retries} tentativas | URL: {url}")
         raise last_error or RuntimeError(f"Falha ao obter dados do SGS: {url}")

@@ -1,0 +1,28 @@
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+skip-string-normalization = true
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]  # ignorar limite de linha, já que o black controla isso
+exclude = [
+    ".git",
+    "__pycache__",
+    "data",
+    "notebooks",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_return_any = false
+warn_unused_configs = true
