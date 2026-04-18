@@ -94,3 +94,6 @@ class BCBClient:
 
         logger.error(f"Falha após {retries} tentativas | URL: {url}")
         raise last_error or RuntimeError(f"Falha ao obter dados do SGS: {url}")
+
+    def get_series(self, codigo_serie: int, data_inicial: str, data_final: str):
+        return self.fetch(codigo_serie, data_inicial, data_final)
