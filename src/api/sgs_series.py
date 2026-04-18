@@ -9,7 +9,9 @@ from src.utils.logging import get_logger
 logger = get_logger(__name__)
 
 
-def get_bc_series(codigo_serie: int, data_inicial: str, data_final: str) -> pd.DataFrame:
+def get_bc_series(
+    codigo_serie: int, data_inicial: str, data_final: str
+) -> pd.DataFrame:
     data = BCBClient.fetch(codigo_serie, data_inicial, data_final)
 
     if not data:

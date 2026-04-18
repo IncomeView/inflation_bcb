@@ -6,5 +6,6 @@ def main():
     run_selic_over()
     run_selic_meta()
 
+
 if __name__ == "__main__":
     main()

@@ -7,7 +7,7 @@ from src.utils.logging import get_logger
 logger = get_logger(__name__)
 
 # Caminho absoluto para o diretório raiz do projeto
-ROOT_DIR = Path(__file__).resolve().parents[2]   # volta até inflation/
+ROOT_DIR = Path(__file__).resolve().parents[2]  # volta até inflation/
 DATA_RAW_DIR = ROOT_DIR / "data" / "raw"
 DATA_RAW_DIR.mkdir(parents=True, exist_ok=True)
 
