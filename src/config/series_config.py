@@ -11,6 +11,7 @@ SERIES = {
     },
 }
 
+
 def get_first_date(codigo_serie: int) -> str:
     # Busca a série pelo código
     for item in SERIES.values():

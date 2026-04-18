@@ -24,5 +24,6 @@ def run_selic_meta():
 
     logger.info(f"Arquivo salvo com sucesso em: {path}")
 
+
 def main():
     run_selic_meta()

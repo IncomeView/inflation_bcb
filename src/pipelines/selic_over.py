@@ -24,6 +24,6 @@ def run_selic_over():
 
     logger.info(f"Arquivo salvo com sucesso em: {path}")
 
+
 def main():
     run_selic_over()
-
