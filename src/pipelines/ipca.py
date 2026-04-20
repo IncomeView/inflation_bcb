@@ -1,20 +1,21 @@
-from src.api.sgs_series import get_series
+from src.api.ipca_series import get_ipca_geral
 from src.database.load import ensure_table, insert_all
 
 
 def run_ipca():
-    df = get_series(433)
-    df["series_id"] = 433
+    """
+    Executa o pipeline do IPCA geral:
+    - consulta o SIDRA (tabela 1737)
+    - monta o DataFrame com as 4 variáveis principais
+    - cria/atualiza a tabela bcb.ipca
+    """
+    df = get_ipca_geral()
 
-    table = "ipca"
+    ensure_table(df, "ipca", schema="bcb")
+    insert_all(df, "ipca", schema="bcb")
 
-    ensure_table(df, table)
-    insert_all(df, table)
-
-
-def main():
-    run_ipca()
+    print("Tabela bcb.ipca atualizada com sucesso!")
 
 
 if __name__ == "__main__":
-    main()
+    run_ipca()
