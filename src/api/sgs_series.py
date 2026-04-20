@@ -9,6 +9,24 @@ from src.utils.logging import get_logger
 logger = get_logger(__name__)
 
 
+def get_series(codigo_serie: int) -> pd.DataFrame:
+    """
+    Função simples para obter a série completa do BCB,
+    usando a primeira data configurada e a última data válida.
+    """
+    from src.config.series_config import get_first_date
+
+    start = get_first_date(codigo_serie)
+    end = get_last_valid_date(codigo_serie)
+
+    df = get_bc_full_series(codigo_serie, start, end)
+
+    # renomeia colunas para padrão do projeto
+    df = df.rename(columns={"data": "date", "valor": "value"})
+
+    return df
+
+
 def get_bc_series(
     codigo_serie: int, data_inicial: str, data_final: str
 ) -> pd.DataFrame:

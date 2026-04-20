@@ -18,6 +18,7 @@ env/
 # --- Jupyter ---
 .ipynb_checkpoints/
 *.ipynb_convert
+notebooks/model.py
 
 # --- VSCode ---
 .vscode/

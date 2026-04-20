@@ -9,6 +9,25 @@ SERIES = {
         "name": "Selic Meta",
         "first_date": "05/03/1999",
     },
+    "ipca": {
+        "code": 433,
+        "name": "ipca",
+        "first_date": "01/01/1980",
+    },
+}
+
+SERIES_CONFIG = {
+    11: {"name": "SELIC over", "update": "incremental"},
+    432: {"name": "SELIC meta", "update": "incremental"},
+    433: {"name": "IPCA", "update": "incremental"},  # IPCA geral
+    444: {
+        "name": "IPCA grupos",
+        "update": "truncate",
+    },  # IPCA por grupos (alimentação, habitação, etc)
+    445: {
+        "name": "IPCA Habitação (grupo)",
+        "update": "truncate",
+    },  # IPCA habitação (grupo)
 }
 
 
