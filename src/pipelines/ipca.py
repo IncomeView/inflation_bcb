@@ -10,3 +10,11 @@ def run_ipca():
 
     ensure_table(df, table)
     insert_all(df, table)
+
+
+def main():
+    run_ipca()
+
+
+if __name__ == "__main__":
+    main()

@@ -10,3 +10,11 @@ def run_selic_meta():
 
     ensure_table(df, table)
     insert_all(df, table)
+
+
+def main():
+    run_selic_meta()
+
+
+if __name__ == "__main__":
+    main()
