@@ -6,7 +6,7 @@ on:
       - "v*"
 
 jobs:
-  run-pipelines:
+  build-and-export:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,29 +31,28 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run all pipelines automatically
+      - name: Skip pipelines in CD
         run: |
-          echo "Executando todos os pipelines em src/pipelines/"
-          for file in src/pipelines/*.py; do
-            module=$(basename "$file" .py)
-            echo "Rodando pipeline: $module"
-            python -m src.pipelines.$module
-          done
+          echo "Pipelines não são executados no CD."
+          echo "Somente build e exportação de artefatos."
 
       - name: Upload raw data
         uses: actions/upload-artifact@v4
         with:
           name: raw-data
           path: data/raw/*
+          if-no-files-found: ignore
 
       - name: Upload processed data
         uses: actions/upload-artifact@v4
         with:
           name: processed-data
           path: data/processed/*
+          if-no-files-found: ignore
 
       - name: Upload outputs
         uses: actions/upload-artifact@v4
         with:
           name: outputs
           path: data/output/*
+          if-no-files-found: ignore

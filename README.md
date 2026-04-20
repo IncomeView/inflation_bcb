@@ -4,7 +4,7 @@
 Este projeto reúne **engenharia de dados**, **macroeconomia aplicada** e **educação analítica**.  
 Ele foi construído para:
 
-- coletar dados oficiais do **IBGE/SIDRA** e **Banco Central do Brasil (BCB)**  
+- coletar dados oficiais do **IBGE/SIDRA** e **Banco Central do Brasil (BCB/SGS)**  
 - organizar séries históricas em **PostgreSQL**  
 - criar **pipelines reprodutíveis**  
 - gerar **notebooks explicativos** sobre inflação e juros  
@@ -16,19 +16,19 @@ O objetivo é ter uma infraestrutura sólida, transparente e extensível para an
 
 # 🧭 Sumário
 
-1. [Visão Geral](#visão-geral)  
-2. [Arquitetura do Projeto](#arquitetura-do-projeto)  
-3. [Tecnologias Utilizadas](#tecnologias-utilizadas)  
-4. [Estrutura do Repositório](#estrutura-do-repositório)  
-5. [Banco de Dados – PostgreSQL](#banco-de-dados--postgresql)  
-6. [APIs Integradas (BCB e IBGE/SIDRA)](#apis-integradas-bcb-e-ibgesidra)  
-7. [Pipelines Implementados](#pipelines-implementados)  
-8. [Notebooks Educacionais](#notebooks-educacionais)  
-9. [Qualidade de Código (Black, Ruff, Pre-commit)](#qualidade-de-código-black-ruff-pre-commit)  
-10. [Testes Automatizados](#testes-automatizados)  
-11. [Como Executar o Projeto](#como-executar-o-projeto)  
-12. [Roadmap](#roadmap)  
-13. [Filosofia do Projeto](#filosofia-do-projeto)
+1. Visão Geral  
+2. Arquitetura do Projeto  
+3. Tecnologias Utilizadas  
+4. Estrutura do Repositório  
+5. Banco de Dados – PostgreSQL  
+6. APIs Integradas (BCB e IBGE/SIDRA)  
+7. Pipelines Implementados  
+8. Notebooks Educacionais  
+9. Qualidade de Código (Black, Ruff, Pre-commit)  
+10. Testes Automatizados  
+11. Como Executar o Projeto  
+12. Roadmap  
+13. Filosofia do Projeto  
 
 ---
 
@@ -36,8 +36,8 @@ O objetivo é ter uma infraestrutura sólida, transparente e extensível para an
 
 Este projeto coleta, transforma e armazena dados econômicos brasileiros, com foco em:
 
-- **IPCA** (grupos, subgrupos, itens)  
-- **SELIC** (meta e over)  
+- **IPCA (SIDRA)** – geral, grupos, subgrupos  
+- **SELIC (SGS)** – meta e over  
 - **Séries temporais do BCB**  
 - **Estruturação de dados para análises avançadas**
 
@@ -62,7 +62,7 @@ BCB/SGS   → bcb_client()  → pipelines SELIC → PostgreSQL → notebooks
 Componentes principais:
 
 - **API Clients**: abstrações para BCB e IBGE  
-- **Pipelines ETL**: scripts reprodutíveis para cada grupo do IPCA e para SELIC  
+- **Pipelines ETL**: scripts reprodutíveis para IPCA e SELIC  
 - **PostgreSQL**: armazenamento estruturado  
 - **Logging**: rastreamento profissional  
 - **Notebooks**: explicações econômicas + visualizações  
@@ -80,41 +80,43 @@ Componentes principais:
 - PostgreSQL + SQLAlchemy
 
 ### APIs
-- **IBGE/SIDRA** (tabela 1419 – IPCA)  
+- **IBGE/SIDRA** (tabelas 1737, 1419, 7060)  
 - **BCB/SGS** (SELIC e outras séries)
 
 ### Ferramentas de Qualidade
-- **Black** (formatação)  
-- **Ruff** (linting)  
-- **pre-commit** (hooks automáticos)
+- Black  
+- Ruff  
+- Pre-commit  
 
 ### Visualização
 - Matplotlib  
 - Seaborn  
 
 ### Infra
-- Dockerfile (opcional)  
+- Dockerfile  
 - `.env` para credenciais  
 
 ---
 
 # 🌳 Estrutura do Repositório
 
-Trecho relevante da árvore (resumido):
+Trecho relevante da árvore:
 
 ~~~
 .
 ├── notebooks/
 │   ├── 01_selic.ipynb
-│   ├── 02.01_ipcaAlimentacao.ipynb
 │   ├── 02_ipca.ipynb
+│   ├── 02.01_ipcaAlimentacao.ipynb
 │   └── model.ipynb
 ├── src/
 │   ├── api/
 │   │   ├── sidra_client.py
+│   │   ├── ipca_series.py
 │   │   ├── bcb_client.py
 │   │   └── sgs_series.py
 │   ├── pipelines/
+│   │   ├── ipca.py
 │   │   ├── ipca_alimentacao.py
 │   │   ├── ipca_habitacao.py
 │   │   ├── selic_meta.py
@@ -145,8 +147,6 @@ Arquivo:
 src/database/connection.py
 ~~~
 
-Cria engine SQLAlchemy a partir de variáveis `.env`.
-
 ### Criação e inserção de tabelas
 
 Arquivo:
@@ -158,15 +158,7 @@ src/database/load.py
 Funções:
 
 - `ensure_table(df, table, schema="bcb")`  
-- `insert_all(df, table, schema="bcb")`
-
-### Observação importante
-
-Quando o schema muda (ex: pivot wide), é necessário dropar a tabela:
-
-~~~
-DROP TABLE bcb.ipca_alimentacao;
-~~~
+- `insert_all(df, table, schema="bcb")`  
 
 ---
 
@@ -174,19 +166,19 @@ DROP TABLE bcb.ipca_alimentacao;
 
 ## IBGE/SIDRA – IPCA
 
-Cliente robusto:
+Cliente:
 
 ~~~
 src/api/sidra_client.py
 ~~~
 
-Principais pontos:
+Características:
 
 - monta URL da API  
 - aceita classificações (ex: 315 – grupos do IPCA)  
 - converte `"..."` → NaN  
 - filtra períodos válidos (AAAAMM)  
-- retorna DataFrame limpo  
+- retorna DataFrame padronizado  
 
 ## BCB – SGS
 
@@ -205,7 +197,30 @@ Usados para:
 
 # 🔄 Pipelines Implementados
 
-## 1. IPCA – Alimentação e Bebidas
+## 1. IPCA – Geral (SIDRA 1737)
+
+Arquivo:
+
+~~~
+src/pipelines/ipca.py
+~~~
+
+Variáveis:
+
+- 63 → variação mensal  
+- 2266 → número-índice  
+- 69 → acumulado no ano  
+- 2265 → acumulado em 12 meses  
+
+Tabela gerada:
+
+~~~
+bcb.ipca
+~~~
+
+---
+
+## 2. IPCA – Alimentação e Bebidas
 
 Arquivo:
 
@@ -213,7 +228,7 @@ Arquivo:
 src/pipelines/ipca_alimentacao.py
 ~~~
 
-Subgrupos:
+Subgrupos (classificação 315):
 
 ~~~
 7169 → alimentacao_e_bebidas
@@ -227,18 +242,9 @@ Subgrupos:
 7177 → panificados
 ~~~
 
-Processo:
-
-- consulta SIDRA  
-- filtra subgrupos  
-- renomeia colunas  
-- pivot wide  
-- garante colunas faltantes  
-- grava em `bcb.ipca_alimentacao`  
-
 ---
 
-## 2. IPCA – Habitação
+## 3. IPCA – Habitação
 
 Arquivo:
 
@@ -259,11 +265,9 @@ Subgrupos:
 7185 → servicos_de_manutencao_do_lar
 ~~~
 
-Mesma estrutura do pipeline anterior.
-
 ---
 
-## 3. SELIC – Meta e Over
+## 4. SELIC – Meta e Over
 
 Arquivos:
 
@@ -272,13 +276,6 @@ src/pipelines/selic_meta.py
 src/pipelines/selic_over.py
 ~~~
 
-Usam SGS/BCB para:
-
-- baixar séries  
-- limpar  
-- padronizar  
-- gravar em PostgreSQL  
-
 ---
 
 # 📓 Notebooks Educacionais
@@ -286,7 +283,6 @@ Usam SGS/BCB para:
 Os notebooks seguem um padrão **prático + educacional**:
 
 - introdução conceitual  
-- explicação dos grupos/subgrupos  
 - execução do pipeline  
 - consulta ao banco  
 - gráficos profissionais  
@@ -294,48 +290,19 @@ Os notebooks seguem um padrão **prático + educacional**:
 
 Exemplos:
 
-### `02.01_ipcaAlimentacao.ipynb`
-
-Contém:
-
-- explicação do grupo Alimentação  
-- subgrupos oficiais  
-- execução do pipeline  
-- heatmap  
-- média móvel  
-- conclusões  
-
-### Notebook de Habitação
-
-Segue exatamente o mesmo modelo.
+- `02_ipca.ipynb` – IPCA geral  
+- `02.01_ipcaAlimentacao.ipynb` – Alimentação e Bebidas  
+- `01_selic.ipynb` – SELIC meta e over  
 
 ---
 
 # 🧹 Qualidade de Código – Black, Ruff, Pre-commit
 
-Configurações em:
+Configurações:
 
 ~~~
 pyproject.toml
 .pre-commit-config.yaml
-~~~
-
-### Black
-
-- formatação automática  
-- estilo consistente  
-
-### Ruff
-
-- linting rápido  
-- substitui flake8 + isort  
-
-### Pre-commit
-
-Instalação:
-
-~~~
-pre-commit install
 ~~~
 
 Rodar manualmente:
@@ -387,24 +354,15 @@ pip install -r requirements.txt
 
 ## 3. Configurar `.env`
 
-Copiar:
-
 ~~~
 cp .env.example .env
 ~~~
 
-Preencher:
-
-- POSTGRES_HOST  
-- POSTGRES_USER  
-- POSTGRES_PASSWORD  
-- POSTGRES_DB  
-
 ## 4. Rodar um pipeline
 
 ~~~
-from src.pipelines.ipca_alimentacao import run_ipca_alimentacao
-run_ipca_alimentacao()
+from src.pipelines.ipca import run_ipca
+run_ipca()
 ~~~
 
 ## 5. Abrir notebooks
@@ -429,7 +387,7 @@ jupyter lab
 
 ### Projetos futuros
 
-- reconstrução do IPCA geral  
+- reconstrução do IPCA geral a partir dos grupos  
 - painel consolidado dos 9 grupos  
 - modelos de previsão (ARIMA, VAR, ETS)  
 - decomposição de choques  
@@ -439,22 +397,20 @@ jupyter lab
 
 # 🧠 Filosofia do Projeto
 
-Este projeto foi construído com três pilares:
-
-## 1. **Rigor técnico**
+## 1. Rigor técnico
 - pipelines reprodutíveis  
 - logs profissionais  
 - banco relacional  
 - testes automatizados  
 - linting e formatação  
 
-## 2. **Transparência e educação**
+## 2. Transparência e educação
 - notebooks explicativos  
 - gráficos claros  
 - narrativa econômica  
 - documentação detalhada  
 
-## 3. **Extensibilidade**
+## 3. Extensibilidade
 - qualquer grupo do IPCA pode ser adicionado  
 - qualquer série do BCB pode ser integrada  
 - arquitetura modular  
@@ -467,4 +423,3 @@ Este projeto foi construído com três pilares:
 Este repositório é mais que um conjunto de scripts:  
 é uma **infraestrutura completa de dados macroeconômicos**,  
 combinando engenharia, economia e educação.
-
