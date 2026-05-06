@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 from sqlalchemy import inspect, text
 
@@ -46,3 +48,20 @@ def ensure_table(df: pd.DataFrame, table: str, schema: str = "bcb"):
 
     # cria tabela com as colunas do DataFrame
     df.head(0).to_sql(table, engine, schema=schema, if_exists="replace", index=False)
+
+
+# -------------------------------------
+# ATUALIZAR VIEWS BANCO bcb
+# -------------------------------------
+def load_views():
+    views_path = os.path.join(os.path.dirname(__file__), "views")
+
+    with engine.begin() as conn:
+        conn.execute(text('SET search_path TO bcb;'))  # <<<<<< AQUI
+        for file in os.listdir(views_path):
+            if file.endswith(".sql"):
+                sql_file = os.path.join(views_path, file)
+                with open(sql_file, "r") as f:
+                    sql = f.read()
+                    conn.execute(text(sql))
+                    print(f"View carregada: {file}")

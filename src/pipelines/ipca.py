@@ -1,5 +1,5 @@
 from src.api.ipca_series import get_ipca_geral
-from src.database.load import ensure_table, insert_all
+from src.database.load import insert_all, truncate_table
 
 
 def run_ipca():
@@ -11,7 +11,7 @@ def run_ipca():
     """
     df = get_ipca_geral()
 
-    ensure_table(df, "ipca", schema="bcb")
+    truncate_table("ipca", schema="bcb")
     insert_all(df, "ipca", schema="bcb")
 
     print("Tabela bcb.ipca atualizada com sucesso!")
