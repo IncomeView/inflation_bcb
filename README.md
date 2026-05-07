@@ -1,14 +1,14 @@
 ## 🌎 Inflation Analytics – Brasil
 IPCA • SELIC • BCB/SGS • IBGE/SIDRA • PostgreSQL • Pipelines Reprodutíveis • Notebooks Educacionais
 
-[![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge)]()
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?style=for-the-badge&logo=postgresql&logoColor=white)]()
-[![SQL](https://img.shields.io/badge/Data%20Engineering-SQL%20Advanced-green?style=for-the-badge&logo=database&logoColor=white)]()
-[![Black](https://img.shields.io/badge/Black-formatter-black?style=for-the-badge)]()
-[![Ruff](https://img.shields.io/badge/Ruff-linter-red?style=for-the-badge)]()  
-[![BCB SGS](https://img.shields.io/badge/BCB-SGS-orange?style=for-the-badge)]()
-[![IBGE SIDRA](https://img.shields.io/badge/IBGE-SIDRA-green?style=for-the-badge)]()
-
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=plastic&logo=python&logoColor=white)]()
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?style=plastic&logo=postgresql&logoColor=white)]()
+[![SQL Advanced](https://img.shields.io/badge/Data_Enginnering-SQL_Advanced-4B8BBE?style=plastic&logo=postgresql&logoColor=white)]()  
+[![Black](https://img.shields.io/badge/Black-Formatter-000000?style=plastic&logo=python&logoColor=white)]()
+[![Ruff](https://img.shields.io/badge/Ruff-Linter-D00000?style=plastic&logo=ruff&logoColor=white)]()
+[![CI/CD](https://img.shields.io/badge/GitHub_Actions-CI%2FCD-2088FF?style=plastic&logo=githubactions&logoColor=white)]()  
+[![BCB SGS](https://img.shields.io/badge/BCB-SGS-F28C28?style=plastic)]()
+[![IBGE SIDRA](https://img.shields.io/badge/IBGE-SIDRA-2E8B57?style=plastic)]()
 
 <br>
 
