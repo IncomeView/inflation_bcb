@@ -19,6 +19,7 @@ env/
 .ipynb_checkpoints/
 *.ipynb_convert
 notebooks/model.py
+notebooks/analytics.ipynb
 
 # --- VSCode ---
 .vscode/
