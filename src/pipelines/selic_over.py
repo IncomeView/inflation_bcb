@@ -1,5 +1,5 @@
 from src.api.sgs_series import get_series
-from src.database.load import ensure_table, insert_all
+from src.database.load import ensure_table, insert_all, truncate_table
 
 
 def run_selic_over():
@@ -8,8 +8,9 @@ def run_selic_over():
 
     table = "selic_over"
 
-    ensure_table(df, table)
-    insert_all(df, table)
+    ensure_table(df, table)  # cria tabela se não existir
+    truncate_table(table)  # limpa tudo
+    insert_all(df, table)  # insere tudo de novo
 
 
 def main():
