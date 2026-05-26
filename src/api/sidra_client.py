@@ -13,7 +13,7 @@ def sidra_query(
     classificacao: dict | None = None,
 ):
     logger.info(
-        f"Consultando SIDRA: tabela={tabela}, variavel={variavel}, periodo={periodo}"
+        f"Consultando SIDRA: tabela={tabela} | → variavel={variavel} | periodo={periodo}"
     )
 
     # Monta URL base

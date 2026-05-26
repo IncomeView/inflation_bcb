@@ -101,10 +101,10 @@ def get_last_valid_date(codigo_serie: int) -> str:
 
 
 def get_bc_full_series(codigo_serie: int, start: str, end: str) -> pd.DataFrame:
-    logger.info(
-        f"Iniciando coleta completa da série {codigo_serie} | "
-        f"Período total: {start} → {end}"
-    )
+    #    logger.info(
+    #        f"Iniciando coleta completa da série {codigo_serie} | "
+    #        f"Período total: {start} → {end}"
+    #    )
 
     start_dt = datetime.strptime(start, "%d/%m/%Y")
     end_dt = datetime.strptime(end, "%d/%m/%Y")
@@ -128,7 +128,7 @@ def get_bc_full_series(codigo_serie: int, start: str, end: str) -> pd.DataFrame:
     df = df.drop_duplicates(subset="data").sort_values("data").reset_index(drop=True)
 
     logger.info(
-        f"Coleta completa finalizada | Total de registros: {len(df)} | "
+        f"Coleta completa finalizada e banco de dados atualizado | Total de registros: {len(df)} | "
         f"Série: {codigo_serie}"
     )
 

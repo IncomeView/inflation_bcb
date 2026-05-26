@@ -1,7 +1,7 @@
 import pandas as pd
 
 from src.api.sidra_client import sidra_query
-from src.database.load import ensure_table, insert_all
+from src.database.load import insert_all, truncate_table
 
 # ============================================================
 # 1. Funções auxiliares (pipeline)
@@ -91,12 +91,12 @@ def run_ipca_subitens(periodo="all"):
     """
     df = get_ipca_subitens(periodo)
 
-    ensure_table(df, "ipca_subitens", schema="bcb")
+    truncate_table("ipca_subitens", schema="bcb")
     insert_all(df, "ipca_subitens", schema="bcb")
 
     print("Tabela bcb.ipca_subitens atualizada com sucesso!")
 
-    return df
+    return
 
 
 # ============================================================

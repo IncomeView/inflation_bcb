@@ -42,7 +42,7 @@ class BCBClient:
 
         for attempt in range(1, retries + 1):
             try:
-                logger.info(f"[Tentativa {attempt}] Chamando URL: {url}")
+                #                logger.info(f"[Tentativa {attempt}] Chamando URL: {url}")
                 response = requests.get(url, timeout=timeout)
 
                 if response.status_code != 200:
@@ -79,18 +79,21 @@ class BCBClient:
                             last_error = RuntimeError(msg)
 
             except requests.Timeout:
-                msg = f"[Tentativa {attempt}] Timeout ao chamar SGS"
+                sleep_time = backoff * attempt
+                msg = f"[Tentativa {attempt}] Timeout ao chamar SGS → Aguardando {sleep_time}s antes da próxima tentativa..."
                 logger.error(msg)
                 last_error = RuntimeError(msg)
+                time.sleep(sleep_time)
 
-            except requests.RequestException as e:
-                msg = f"[Tentativa {attempt}] Erro de rede ao chamar SGS: {e}"
+            except requests.RequestException:
+                sleep_time = backoff * attempt
+                msg = f"[Tentativa {attempt}] Erro de rede ao chamar SGS → Aguardando {sleep_time}s antes da próxima tentativa..."  #: {e}"
                 logger.error(msg)
                 last_error = RuntimeError(msg)
+                time.sleep(sleep_time)
 
-            sleep_time = backoff * attempt
-            logger.info(f"Aguardando {sleep_time}s antes da próxima tentativa...")
-            time.sleep(sleep_time)
+        #            logger.info(f"[Tentativa {attempt}] Timeout ao chamar SGS → Aguardando {sleep_time}s antes da próxima tentativa...")
+        #            time.sleep(sleep_time)
 
         logger.error(f"Falha após {retries} tentativas | URL: {url}")
         raise last_error or RuntimeError(f"Falha ao obter dados do SGS: {url}")
