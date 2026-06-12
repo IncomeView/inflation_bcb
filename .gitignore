@@ -29,6 +29,7 @@ data/*
 data/raw/
 data/processed/
 data/output/
+database/setup.py
 
 
 # Mas mantenha a estrutura das pastas
