@@ -1,0 +1,58 @@
+roles:
+  - name: Admin
+    permissions:
+      - database_access
+      - datasource_access
+      - can_write
+      - can_read
+      - can_sql_json
+      - can_sqllab
+      - can_sqllab_execute
+      - can_sqllab_save
+      - can_sqllab_list
+      - can_dashboard
+      - can_chart
+      - can_dataset
+      - can_import_dashboards
+      - can_export_dashboards
+      - can_sync_datasets
+      - can_configure
+      - can_manage
+      - can_user
+      - can_role
+      - can_security
+      - can_view_menu
+      - all_datasource_access
+
+  - name: Editor
+    permissions:
+      - can_read
+      - can_write
+      - can_dashboard
+      - can_chart
+      - can_dataset
+      - can_sqllab
+      - can_sqllab_execute
+      - can_sqllab_save
+      - can_sqllab_list
+      - datasource_access
+      - database_access
+      - can_view_menu
+
+  - name: Viewer
+    permissions:
+      - can_read
+      - can_dashboard
+      - can_chart
+      - can_view_menu
+      - datasource_access
+
+  - name: Finance Analyst
+    permissions:
+      - can_read
+      - can_dashboard
+      - can_chart
+      - can_dataset
+      - datasource_access
+      - database_access
+      - can_view_menu

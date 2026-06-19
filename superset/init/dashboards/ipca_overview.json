@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "dashboard_title": "IPCA – Overview",
+  "description": "Painel geral do IPCA: mensal, 12 meses, tendências e heatmaps.",
+  "metadata": {
+    "color_scheme": "supersetColors"
+  },
+  "charts": [
+    {
+      "slice_name": "IPCA – Variação Mensal",
+      "viz_type": "line",
+      "datasource": "vw_ipca_mensal",
+      "metrics": ["ipca_mensal"],
+      "groupby": ["date"]
+    },
+    {
+      "slice_name": "IPCA – Acumulado 12 meses",
+      "viz_type": "line",
+      "datasource": "vw_ipca_12m",
+      "metrics": ["ipca_12m"],
+      "groupby": ["date"]
+    },
+    {
+      "slice_name": "IPCA – Tendência MM12",
+      "viz_type": "line",
+      "datasource": "vw_ipca_tendencia_mm12",
+      "metrics": ["ipca_mm12"],
+      "groupby": ["date"]
+    }
+  ]
+}

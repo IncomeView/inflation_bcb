@@ -1,0 +1,32 @@
+services:
+  app:
+    build: .
+    container_name: inflation-app
+    restart: always
+    working_dir: /app
+    command: ["tail", "-f", "/dev/null"]
+
+  superset:
+    image: apache/superset:3.1.0
+    container_name: superset
+    restart: always
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_SECRET_KEY: "troque-por-uma-chave-segura"
+      TZ: "America/Sao_Paulo"
+      PYTHONPATH: "/app/pythonpath"
+    volumes:
+      - superset_home:/app/superset_home
+      - ./superset:/app/pythonpath
+      - ./superset/requirements-local.txt:/app/requirements-local.txt
+    command: >
+      bash -c "
+      pip install -r /app/requirements-local.txt &&
+      superset db upgrade &&
+      superset init &&
+      /usr/bin/run-server.sh
+      "
+
+volumes:
+  superset_home:

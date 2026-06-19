@@ -1,0 +1,8 @@
+databases:
+  - database_name: "PostgreSQL - BCB"
+    sqlalchemy_uri: "postgresql+psycopg2://{{ env('DB_USER') }}:{{ env('DB_PASSWORD') }}@host.docker.internal:5432/bcb"
+    extra:
+      engine_params:
+        connect_args:
+          options: "-csearch_path=bcb"
+    allow_run_async: true
