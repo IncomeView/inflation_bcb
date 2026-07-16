@@ -23,7 +23,7 @@ def get_ipca_geral(periodo: str = "all") -> pd.DataFrame:
 
     Variáveis:
         63    = variação mensal        -> indice
-        2266  = número-índice          -> nIndice
+        2266  = número-índice          -> nindice
         69    = acumulado no ano       -> acumulado
         2265  = acumulado em 12 meses  -> acumulado12m
     """
@@ -37,14 +37,14 @@ def get_ipca_geral(periodo: str = "all") -> pd.DataFrame:
 
     # renomear colunas
     df_63 = df_63.rename(columns={"valor": "indice"})
-    df_2266 = df_2266.rename(columns={"valor": "nIndice"})
+    df_2266 = df_2266.rename(columns={"valor": "nindice"})
     df_69 = df_69.rename(columns={"valor": "acumulado"})
     df_2265 = df_2265.rename(columns={"valor": "acumulado12m"})
 
     # merge pela coluna periodo
     df = (
         df_63[["periodo", "indice"]]
-        .merge(df_2266[["periodo", "nIndice"]], on="periodo", how="left")
+        .merge(df_2266[["periodo", "nindice"]], on="periodo", how="left")
         .merge(df_69[["periodo", "acumulado"]], on="periodo", how="left")
         .merge(df_2265[["periodo", "acumulado12m"]], on="periodo", how="left")
     )
@@ -54,4 +54,4 @@ def get_ipca_geral(periodo: str = "all") -> pd.DataFrame:
 
     df = df.sort_values("date").reset_index(drop=True)
 
-    return df[["date", "indice", "nIndice", "acumulado", "acumulado12m"]]
+    return df[["date", "indice", "nindice", "acumulado", "acumulado12m"]]

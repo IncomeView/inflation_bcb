@@ -1,16 +1,17 @@
+# src/pipelines/selic_meta.py
 from src.api.sgs_series import get_series
-from src.database.load import ensure_table, insert_all, truncate_table
+from src.database.load import insert_all, truncate_table
 
 
 def run_selic_meta():
-    df = get_series(432)
-    df["series_id"] = 432
+    codigo = 432  # SELIC meta
+    df = get_series(codigo)
+    df["series_id"] = codigo
 
     table = "selic_meta"
 
-    ensure_table(df, table)  # cria tabela se não existir
-    truncate_table(table)  # limpa tudo
-    insert_all(df, table)  # insere tudo de novo
+    truncate_table(table)
+    insert_all(df, table)
 
 
 def main():

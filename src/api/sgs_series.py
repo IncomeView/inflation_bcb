@@ -11,8 +11,9 @@ logger = get_logger(__name__)
 
 def get_series(codigo_serie: int) -> pd.DataFrame:
     """
-    Função simples para obter a série completa do BCB,
-    usando a primeira data configurada e a última data válida.
+    Obtém a série completa do BCB/SGS usando:
+    - primeira data configurada (series_config)
+    - última data válida (SGS)
     """
     from src.config.series_config import get_first_date
 
@@ -23,6 +24,7 @@ def get_series(codigo_serie: int) -> pd.DataFrame:
 
     # renomeia colunas para padrão do projeto
     df = df.rename(columns={"data": "date", "valor": "value"})
+    df = df.sort_values("date").reset_index(drop=True)
 
     return df
 
@@ -41,7 +43,6 @@ def get_bc_series(
 
     df = pd.DataFrame(data)
 
-    # Conversão da coluna de data
     if "data" in df.columns:
         try:
             df["data"] = pd.to_datetime(df["data"], dayfirst=True)
@@ -50,7 +51,6 @@ def get_bc_series(
             logger.error(f"Erro ao converter datas para datetime: {e}", exc_info=True)
             raise
 
-    # Conversão da coluna valor
     if "valor" in df.columns:
         try:
             df["valor"] = df["valor"].str.replace(",", ".").astype(float)
@@ -101,18 +101,13 @@ def get_last_valid_date(codigo_serie: int) -> str:
 
 
 def get_bc_full_series(codigo_serie: int, start: str, end: str) -> pd.DataFrame:
-    #    logger.info(
-    #        f"Iniciando coleta completa da série {codigo_serie} | "
-    #        f"Período total: {start} → {end}"
-    #    )
-
     start_dt = datetime.strptime(start, "%d/%m/%Y")
     end_dt = datetime.strptime(end, "%d/%m/%Y")
 
     dfs = []
     current_start = start_dt
 
-    while current_start < end_dt:
+    while current_start <= end_dt:
         current_end = min(current_start + timedelta(days=365 * 10), end_dt)
 
         df_chunk = get_bc_series(
@@ -121,15 +116,13 @@ def get_bc_full_series(codigo_serie: int, start: str, end: str) -> pd.DataFrame:
             current_end.strftime("%d/%m/%Y"),
         )
 
+        if df_chunk.empty:
+            logger.warning(f"Chunk vazio: {current_start} → {current_end}")
+
         dfs.append(df_chunk)
         current_start = current_end + timedelta(days=1)
 
     df = pd.concat(dfs, ignore_index=True)
-    df = df.drop_duplicates(subset="data").sort_values("data").reset_index(drop=True)
-
-    logger.info(
-        f"Coleta completa finalizada e banco de dados atualizado | Total de registros: {len(df)} | "
-        f"Série: {codigo_serie}"
-    )
+    df = df.drop_duplicates(subset="data")
 
     return df
