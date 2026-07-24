@@ -1,50 +1,19 @@
 # src/pipelines/ipca/subgrupos.py
 
-import pandas as pd
-
-from src.api.sidra_client import sidra_query
 from src.database.load import insert_all, truncate_table
-
-
-def get_ipca_subgrupos(periodo="all"):
-    df_valor = sidra_query(
-        tabela=7060,
-        variavel=63,
-        periodo=periodo,
-        classificacao={"316": "all"},
-    ).rename(columns={"valor": "indice"})
-
-    df_peso = sidra_query(
-        tabela=7060,
-        variavel=66,
-        periodo=periodo,
-        classificacao={"316": "all"},
-    ).rename(columns={"valor": "peso"})
-
-    df = df_valor.merge(
-        df_peso[["periodo", "categoria", "peso"]],
-        on=["periodo", "categoria"],
-        how="left",
-    )
-
-    df["category"] = df["categoria"].apply(lambda x: str(x).split(".")[0])
-    df["category_name"] = df["categoria"].apply(
-        lambda x: str(x).split(".")[1] if "." in str(x) else None
-    )
-
-    df = df.rename(columns={"periodo": "date"})
-    df["date"] = pd.to_datetime(df["date"], format="%Y%m")
-
-    return df[["date", "indice", "peso", "category", "category_name"]]
+from src.pipelines.ipca.base import get_ipca_nivel
+from src.pipelines.ipca.codigos import cod_subgrupos
 
 
 def run_ipca_subgrupos(periodo="all"):
-    df = get_ipca_subgrupos(periodo)
-
+    df = get_ipca_nivel(cod_subgrupos, periodo)
     truncate_table("ipca_subgrupos", schema="bcb")
     insert_all(df, "ipca_subgrupos", schema="bcb")
+    print("Tabela bcb.ipca_subgrupos atualizada!")
 
-    print("Tabela bcb.ipca_subgrupos atualizada com sucesso!")
+
+def main():
+    run_ipca_subgrupos()
 
 
 if __name__ == "__main__":

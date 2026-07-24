@@ -48,7 +48,7 @@ select
 	g.category_name						as grupo_nome,
 	sg.subgrupo_nome, ii.item_nome, si.subitem_nome
 from bcb.ipca_grupos g
-left join bcb.ipca i on g."date" = i."date"
+left join bcb.ipca_geral i on g."date" = i."date"
 left join subgrupo sg on sg."grupo_id" = g."category" and sg.date = g."date"
 left join item ii on ii."subgrupo_id" = sg."subgrupo_id" and ii.date = g."date"
 left join subitem si on si."item_id" = ii."item_id" and si.date = g."date"

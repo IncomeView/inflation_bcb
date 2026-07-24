@@ -1,25 +1,52 @@
 # src/pipelines/ipca/geral.py
 
-from src.api.ipca_series import get_ipca_geral
+import pandas as pd
+
+from src.api.sidra_client import sidra_query
 from src.database.load import insert_all, truncate_table
 
 
+def get_ipca_geral(periodo="all"):
+
+    # Número-índice (2266)
+    df_nindice = sidra_query(tabela=1737, variavel=2266, periodo=periodo)[
+        ["periodo", "valor"]
+    ].rename(columns={"valor": "nindice"})
+    df_nindice["nindice"] = df_nindice["nindice"] * 1e9  # corrigir escala
+
+    # Variação mensal (63)
+    df_indice = sidra_query(tabela=1737, variavel=63, periodo=periodo)[
+        ["periodo", "valor"]
+    ].rename(columns={"valor": "indice"})
+
+    # Acumulado no ano (69)
+    df_acum = sidra_query(tabela=1737, variavel=69, periodo=periodo)[
+        ["periodo", "valor"]
+    ].rename(columns={"valor": "acumulado"})
+
+    # Acumulado 12 meses (2265)
+    df_acum12 = sidra_query(tabela=1737, variavel=2265, periodo=periodo)[
+        ["periodo", "valor"]
+    ].rename(columns={"valor": "acumulado12m"})
+
+    # Merge final
+    out = (
+        df_indice.merge(df_acum, on="periodo")
+        .merge(df_acum12, on="periodo")
+        .merge(df_nindice, on="periodo")
+    )
+
+    out = out.rename(columns={"periodo": "date"})
+    out["date"] = pd.to_datetime(out["date"], format="%Y%m")
+
+    return out[["date", "indice", "acumulado", "acumulado12m", "nindice"]]
+
+
 def run_ipca_geral(periodo="all"):
-    """
-    Executa o pipeline do IPCA geral:
-    - consulta o SIDRA (tabela 1737)
-    - monta o DataFrame com as 4 variáveis principais
-    - cria/atualiza a tabela bcb.ipca
-    """
     df = get_ipca_geral(periodo)
-    df["series_id"] = "ipca"
-
-    table = "ipca"
-
-    truncate_table(table, schema="bcb")
-    insert_all(df, table, schema="bcb")
-
-    print("Tabela bcb.ipca atualizada com sucesso!")
+    truncate_table("ipca_geral", schema="bcb")
+    insert_all(df, "ipca_geral", schema="bcb")
+    print("Tabela bcb.ipca_geral atualizada!")
 
 
 def main():

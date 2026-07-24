@@ -39,7 +39,8 @@ def sidra_query(
     df = df.rename(
         columns={
             "D3C": "periodo",
-            "D4N": "categoria",
+            "D4C": "categoria",
+            "D4N": "categoria_nome",
             "V": "valor",
         }
     )
