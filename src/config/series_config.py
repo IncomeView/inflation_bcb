@@ -1,9 +1,15 @@
-# src/config/series_config.py
+# src/config/series_config.py# src/config/series_config.py
+
+SERIES = {
+    "ipca_geral": 1737,
+    "ipca_grupos": 7060,
+    "selic_meta": 432,
+    "selic_over": 11,
+}
 
 SERIES_FIRST_DATE = {
-    # SELIC
-    432: "01/01/2000",  # SELIC meta (BCB/SGS)
-    11: "01/01/2000",  # SELIC over (BCB/SGS - série antiga)
+    432: "01/01/2000",
+    11: "01/01/2000",
 }
 
 
