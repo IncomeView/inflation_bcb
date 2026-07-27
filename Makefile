@@ -1,3 +1,6 @@
+include .env
+export
+
 PYTHON=python
 
 run-all:
@@ -18,9 +21,6 @@ ipca-itens:
 ipca-subitens:
 	$(PYTHON) -m src.pipelines.ipca.subitens
 
-ipca-subitens_detalhados:
-	$(PYTHON) -m src.pipelines.ipca.subitens_detalhados
-
 
 run-ipca:
 	$(PYTHON) -m src.pipelines.ipca.geral
@@ -28,7 +28,6 @@ run-ipca:
 	$(PYTHON) -m src.pipelines.ipca.subgrupos
 	$(PYTHON) -m src.pipelines.ipca.itens
 	$(PYTHON) -m src.pipelines.ipca.subitens
-	$(PYTHON) -m src.pipelines.ipca.subitens_detalhados
 
 selic-meta:
 	$(PYTHON) -m src.pipelines.selic_meta
@@ -39,3 +38,6 @@ selic-over:
 run-selic:
 	$(PYTHON) -m src.pipelines.selic_meta
 	$(PYTHON) -m src.pipelines.selic_over
+
+run-views:
+	psql -U $(DB_USER) -d $(DB_NAME) -f src/database/migrations/002_create_views.sql

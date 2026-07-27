@@ -1,11 +1,10 @@
 import pandas as pd
 
 from src.api.sidra_client import sidra_query
-from src.pipelines.ipca.codigos import codigos
 
 
-def get_ipca_nivel(nivel_codes, periodo="all"):
-    # Variação mensal
+def get_ipca_nivel(prefix_len, periodo="all"):
+
     df_indice = sidra_query(
         tabela=7060,
         variavel=63,
@@ -13,7 +12,6 @@ def get_ipca_nivel(nivel_codes, periodo="all"):
         classificacao={"315": "all"},
     ).rename(columns={"valor": "indice"})
 
-    # Peso
     df_peso = sidra_query(
         tabela=7060,
         variavel=66,
@@ -21,7 +19,6 @@ def get_ipca_nivel(nivel_codes, periodo="all"):
         classificacao={"315": "all"},
     ).rename(columns={"valor": "peso"})
 
-    # Acumulado no ano
     df_acum = sidra_query(
         tabela=7060,
         variavel=2265,
@@ -29,7 +26,6 @@ def get_ipca_nivel(nivel_codes, periodo="all"):
         classificacao={"315": "all"},
     ).rename(columns={"valor": "acumulado"})
 
-    # MERGE das variáveis
     df = df_indice.merge(
         df_peso[["periodo", "categoria", "peso"]],
         on=["periodo", "categoria"],
@@ -42,20 +38,19 @@ def get_ipca_nivel(nivel_codes, periodo="all"):
         how="left",
     )
 
-    # Filtra pelos códigos internos (D4C)
-    df = df[df["categoria"].isin(nivel_codes)]
+    # remover linhas sem categoria_nome
+    df = df.dropna(subset=["categoria_nome"])
 
-    # Merge para trazer o nome da categoria (D4N)
-    df = df.merge(codigos, left_on="categoria", right_on="D4C", how="left")
+    # dividir categoria_nome corretamente
+    split_cols = df["categoria_nome"].str.split(".", n=1, expand=True)
+    df["categoria"] = split_cols[0]
+    df["categoria_nome"] = split_cols[1]
 
-    # Separar category e category_name
-    df["category"] = df["D4N"].apply(lambda x: str(x).split(".")[0])
-    df["category_name"] = df["D4N"].apply(
-        lambda x: str(x).split(".", 1)[1] if "." in str(x) else x
-    )
+    df["prefix_len"] = df["categoria"].str.len()
 
-    # Ajustar data
+    df = df[df["prefix_len"] == prefix_len]
+
     df = df.rename(columns={"periodo": "date"})
     df["date"] = pd.to_datetime(df["date"], format="%Y%m")
 
-    return df[["date", "indice", "acumulado", "peso", "category", "category_name"]]
+    return df[["date", "indice", "acumulado", "peso", "categoria", "categoria_nome"]]

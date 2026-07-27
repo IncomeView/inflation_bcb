@@ -59,10 +59,9 @@ CREATE TABLE IF NOT EXISTS bcb.ipca_grupos (
     date DATE NOT NULL,
     indice FLOAT,
     acumulado FLOAT,
-    acumulado12m FLOAT,
     peso FLOAT,
-    category TEXT,
-    category_name TEXT,
+    categoria TEXT,
+    categoria_nome TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -76,10 +75,9 @@ CREATE TABLE IF NOT EXISTS bcb.ipca_subgrupos (
     date DATE NOT NULL,
     indice FLOAT,
     acumulado FLOAT,
-    acumulado12m FLOAT,
     peso FLOAT,
-    category TEXT,
-    category_name TEXT,
+    categoria TEXT,
+    categoria_nome TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -93,10 +91,9 @@ CREATE TABLE IF NOT EXISTS bcb.ipca_itens (
     date DATE NOT NULL,
     indice FLOAT,
     acumulado FLOAT,
-    acumulado12m FLOAT,
     peso FLOAT,
-    category TEXT,
-    category_name TEXT,
+    categoria TEXT,
+    categoria_nome TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -110,29 +107,12 @@ CREATE TABLE IF NOT EXISTS bcb.ipca_subitens (
     date DATE NOT NULL,
     indice FLOAT,
     acumulado FLOAT,
-    acumulado12m FLOAT,
     peso FLOAT,
-    category TEXT,
-    category_name TEXT,
+    categoria TEXT,
+    categoria_nome TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
-
-/*
------------------------------------------
-TABLE IPCA SUBITENS DETALHADOS
------------------------------------------
-*/
-CREATE TABLE IF NOT EXISTS bcb.ipca_subitens_detalhados (
-    date DATE NOT NULL,
-    indice FLOAT,
-    acumulado FLOAT,
-    acumulado12m FLOAT,
-    peso FLOAT,
-    category TEXT,
-    category_name TEXT,
-    created_at TIMESTAMP DEFAULT NOW()
-);
 
 
 /*

@@ -2,11 +2,10 @@
 
 from src.database.load import insert_all, truncate_table
 from src.pipelines.ipca.base import get_ipca_nivel
-from src.pipelines.ipca.codigos import cod_subitens
 
 
 def run_ipca_subitens(periodo="all"):
-    df = get_ipca_nivel(cod_subitens, periodo)
+    df = get_ipca_nivel(prefix_len=7, periodo=periodo)
     truncate_table("ipca_subitens", schema="bcb")
     insert_all(df, "ipca_subitens", schema="bcb")
     print("Tabela bcb.ipca_subitens atualizada!")

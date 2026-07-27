@@ -1,13 +1,9 @@
 from src.database.load import insert_all, truncate_table
 from src.pipelines.ipca.base import get_ipca_nivel
-from src.pipelines.ipca.codigos import cod_grupos
 
 
 def run_ipca_grupos(periodo="all"):
-    """
-    Executa o pipeline do IPCA grupos usando a tabela 7060 (classificação 315).
-    """
-    df = get_ipca_nivel(cod_grupos, periodo)
+    df = get_ipca_nivel(prefix_len=1, periodo=periodo)
     truncate_table("ipca_grupos", schema="bcb")
     insert_all(df, "ipca_grupos", schema="bcb")
     print("Tabela bcb.ipca_grupos atualizada!")
