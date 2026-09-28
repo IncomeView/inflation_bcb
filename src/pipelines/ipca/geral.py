@@ -9,27 +9,41 @@ from src.database.load import insert_all, truncate_table
 def get_ipca_geral(periodo="all"):
 
     # Número-índice (2266)
-    df_nindice = sidra_query(tabela=1737, variavel=2266, periodo=periodo)[
+    df_nindice = sidra_query(
+        tabela=1737,
+        variavel=2266,
+        periodo=periodo,
+    )[
         ["periodo", "valor"]
     ].rename(columns={"valor": "nindice"})
-    df_nindice["nindice"] = df_nindice["nindice"] * 1e9  # corrigir escala
 
     # Variação mensal (63)
-    df_indice = sidra_query(tabela=1737, variavel=63, periodo=periodo)[
+    df_indice = sidra_query(
+        tabela=1737,
+        variavel=63,
+        periodo=periodo,
+    )[
         ["periodo", "valor"]
     ].rename(columns={"valor": "indice"})
 
     # Acumulado no ano (69)
-    df_acum = sidra_query(tabela=1737, variavel=69, periodo=periodo)[
+    df_acum = sidra_query(
+        tabela=1737,
+        variavel=69,
+        periodo=periodo,
+    )[
         ["periodo", "valor"]
     ].rename(columns={"valor": "acumulado"})
 
     # Acumulado 12 meses (2265)
-    df_acum12 = sidra_query(tabela=1737, variavel=2265, periodo=periodo)[
+    df_acum12 = sidra_query(
+        tabela=1737,
+        variavel=2265,
+        periodo=periodo,
+    )[
         ["periodo", "valor"]
     ].rename(columns={"valor": "acumulado12m"})
 
-    # Merge final
     out = (
         df_indice.merge(df_acum, on="periodo")
         .merge(df_acum12, on="periodo")
@@ -37,9 +51,21 @@ def get_ipca_geral(periodo="all"):
     )
 
     out = out.rename(columns={"periodo": "date"})
-    out["date"] = pd.to_datetime(out["date"], format="%Y%m")
 
-    return out[["date", "indice", "acumulado", "acumulado12m", "nindice"]]
+    out["date"] = pd.to_datetime(
+        out["date"],
+        format="%Y%m",
+    )
+
+    return out[
+        [
+            "date",
+            "indice",
+            "acumulado",
+            "acumulado12m",
+            "nindice",
+        ]
+    ]
 
 
 def run_ipca_geral(periodo="all"):
