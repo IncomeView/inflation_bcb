@@ -1,0 +1,59 @@
+project:
+  type: default
+  output-dir: reports
+
+format:
+
+  # =========================================================
+  # HTML: leitura interativa
+  # =========================================================
+  html:
+    theme: cosmo
+    css: styles.css
+
+    toc: true
+    toc-title: "Neste relatório"
+    toc-location: right
+    toc-depth: 3
+#    toc-expand: 1
+
+    anchor-sections: true
+    number-sections: false
+    smooth-scroll: true
+
+    code-fold: true
+    code-summary: "Mostrar código"
+    code-tools: true
+    code-copy: true
+    code-overflow: wrap
+
+    grid:
+      body-width: 1000px
+      margin-width: 320px
+      gutter-width: 2rem
+
+  # =========================================================
+  # PDF: relatório para impressão
+  # =========================================================
+  pdf:
+    pdf-engine: lualatex
+
+    toc: true
+    toc-title: "Sumário"
+    toc-depth: 3
+
+    number-sections: false
+
+    geometry:
+      - top=22mm
+      - bottom=22mm
+      - left=22mm
+      - right=22mm
+
+    colorlinks: true
+    linkcolor: blue
+    urlcolor: blue
+
+execute:
+  warning: false
+  freeze: auto

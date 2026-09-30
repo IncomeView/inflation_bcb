@@ -50,3 +50,12 @@ Thumbs.db
 .cache/
 __cache__/
 *_cache
+
+# --- quarto ---
+*.html
+*.pdf
+*.docx
+*_files/
+
+/.quarto/
+**/*.quarto_ipynb
