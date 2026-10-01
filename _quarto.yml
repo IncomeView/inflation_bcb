@@ -14,7 +14,7 @@ format:
     toc: true
     toc-title: "Neste relatório"
     toc-location: right
-    toc-depth: 3
+    toc-depth: 4
 #    toc-expand: 1
 
     anchor-sections: true
