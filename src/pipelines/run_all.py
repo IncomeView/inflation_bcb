@@ -5,6 +5,7 @@ from src.pipelines.ipca.grupos import run_ipca_grupos
 from src.pipelines.ipca.itens import run_ipca_itens
 from src.pipelines.ipca.subgrupos import run_ipca_subgrupos
 from src.pipelines.ipca.subitens import run_ipca_subitens
+from src.pipelines.ipca.taxonomia import run_taxonomia
 from src.pipelines.selic_meta import run_selic_meta
 from src.pipelines.selic_over import run_selic_over
 
@@ -15,6 +16,8 @@ def run_all():
     run_ipca_subgrupos()
     run_ipca_itens()
     run_ipca_subitens()
+
+    run_taxonomia()
 
     run_selic_meta()
     run_selic_over()

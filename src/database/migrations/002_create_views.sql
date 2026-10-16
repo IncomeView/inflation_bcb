@@ -60,7 +60,7 @@ order by g."date" desc;
 VIEW BLOCOS ECONOMICOS
 -----------------------------------------
 */
-CREATE OR REPLACE VIEW bcb.vw_blocos_macro AS
+CREATE OR REPLACE VIEW bcb.vw_ipca_hierarquia AS
 WITH
 grupo AS (
     SELECT
@@ -107,3 +107,27 @@ LEFT JOIN subgrupo sg ON sg.grupo_id = g.grupo_id
 LEFT JOIN item ii ON ii.subgrupo_id = sg.subgrupo_id
 LEFT JOIN subitem si ON si.item_id = ii.item_id
 ORDER BY si.subitem_id ASC;
+
+
+/*
+-----------------------------------------
+VIEW IPCA TAXONOMIA MACRO
+-----------------------------------------
+*/
+CREATE OR REPLACE VIEW bcb.vw_ipca_taxonomia AS
+SELECT
+    h.grupo_id,
+    h.grupo_nome,
+    h.subgrupo_id,
+    h.subgrupo_nome,
+    h.item_id,
+    h.item_nome,
+    h.subitem_id,
+    h.subitem_nome,
+    c.bloco_macro,
+    c.sub_bloco,
+    c.categoria_cidada,
+    c.subcategoria_cidada
+FROM bcb.vw_ipca_hierarquia h
+LEFT JOIN bcb.ipca_taxonomia c
+    ON h.subitem_id = c.subitem_id;

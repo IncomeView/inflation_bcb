@@ -139,3 +139,19 @@ CREATE TABLE IF NOT EXISTS bcb.selic_over (
     series_id INT,
     created_at TIMESTAMP DEFAULT NOW()
 );
+
+
+
+/*
+-----------------------------------------
+TABLE IPCA TAXONOMIA MACRO
+-----------------------------------------
+*/
+CREATE TABLE IF NOT EXISTS bcb.ipca_taxonomia (
+    subitem_id varchar primary key,
+    bloco_macro varchar not null,
+    sub_bloco varchar null,
+    categoria_cidada varchar null,
+    subcategoria_cidada varchar null
+);
+

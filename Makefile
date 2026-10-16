@@ -41,3 +41,9 @@ run-selic:
 
 run-views:
 	psql -U $(DB_USER) -d $(DB_NAME) -f src/database/migrations/002_create_views.sql
+
+run-tables:
+	psql -U $(DB_USER) -d $(DB_NAME) -f src/database/migrations/001_create_tables.sql
+
+run-taxonomia:
+	$(PYTHON) -m src.pipelines.ipca.taxonomia
