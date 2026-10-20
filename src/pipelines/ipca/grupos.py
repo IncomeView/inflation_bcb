@@ -1,3 +1,5 @@
+# grupos.py
+
 from src.database.load import insert_all, truncate_table
 from src.pipelines.ipca.base import get_ipca_nivel
 

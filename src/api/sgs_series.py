@@ -4,7 +4,7 @@ import pandas as pd
 import requests
 
 from src.api.bcb_client import BCBClient
-from src.utils.logging import get_logger
+from src.core.logging import get_logger
 
 logger = get_logger(__name__)
 

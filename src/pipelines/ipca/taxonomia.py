@@ -2,14 +2,14 @@
 
 import pandas as pd
 
-from src.config.ipca_taxonomia import (
-    get_bloco_macro,
-    get_categoria_cidada,
-)
 from src.database.connection import engine
 from src.database.load import (
     insert_all,
     truncate_table,
+)
+from src.domain.ipca.taxonomia import (
+    get_bloco_macro,
+    get_categoria_cidada,
 )
 
 TABLE_NAME = "ipca_taxonomia"

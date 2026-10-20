@@ -1,3 +1,6 @@
+# cache.py
+
+
 class Cache:
     def __init__(self, path: str | None = None):
         self.path = path or "cache.db"
