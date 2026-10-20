@@ -1,7 +1,27 @@
+# load.py
+
 import pandas as pd
 from sqlalchemy import text
 
+from src.core.validate import validate_df
 from src.database.connection import engine
+
+
+def safe_replace(
+    df,
+    table,
+    schema="bcb",
+):
+    validate_df(df)
+    truncate_table(
+        table,
+        schema=schema,
+    )
+    insert_all(
+        df,
+        table,
+        schema=schema,
+    )
 
 
 # -------------------------------------

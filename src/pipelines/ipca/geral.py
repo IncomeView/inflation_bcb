@@ -3,7 +3,7 @@
 import pandas as pd
 
 from src.api.sidra_client import sidra_query
-from src.database.load import insert_all, truncate_table
+from src.database.load import safe_replace
 
 
 def get_ipca_geral(periodo="all"):
@@ -70,8 +70,10 @@ def get_ipca_geral(periodo="all"):
 
 def run_ipca_geral(periodo="all"):
     df = get_ipca_geral(periodo)
-    truncate_table("ipca_geral", schema="bcb")
-    insert_all(df, "ipca_geral", schema="bcb")
+    table = "ipca_geral"
+    safe_replace(df, table)
+    #    truncate_table("ipca_geral", schema="bcb")
+    #    insert_all(df, "ipca_geral", schema="bcb")
     print("Tabela bcb.ipca_geral atualizada!")
 
 
