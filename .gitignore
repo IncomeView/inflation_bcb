@@ -1,60 +1,54 @@
-# --- Python ---
+# Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.pkl
+*.py[cod]
 *.egg-info/
-*.log
 
-# --- Virtual environments ---
+# Virtualenv
 .env
-.venv
+.venv/
 venv/
 env/
-*/env/
-*/.venv/
 
-# --- Jupyter ---
-.ipynb_checkpoints/
-*.ipynb_convert
-notebooks/model.py
-notebooks/analytics.ipynb
-
-# --- VSCode ---
+# IDE
 .vscode/
 
-# --- Data ---
-data/*
-data/raw/
-data/processed/
-data/output/
-database/setup.py
+# Jupyter
+.ipynb_checkpoints/
 
+# Cache
+.cache/
+.pytest_cache/
+.ruff_cache/
+.quarto/
 
-# Mas mantenha a estrutura das pastas
-!data/.gitkeep
-!data/raw/.gitkeep
-!data/processed/.gitkeep
-!data/output/.gitkeep
+# Quarto
+_site/
+*_files/
+*.quarto_ipynb
+*.html
 
-# --- Docker ---
+# Data
+data/**
+!data/**/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# Database
+*.duckdb
+*.wal
+
+# Modelos
+models/
+artifacts/
+*.joblib
+*.onnx
+
+# Docker
 *.pid
 *.sock
 
-# --- OS files ---
+# OS
 .DS_Store
 Thumbs.db
-
-# --- Cache ---
-.cache/
-__cache__/
-*_cache
-
-# --- quarto ---
-*.html
-*.docx
-*_files/
-
-/.quarto/
-**/*.quarto_ipynb
