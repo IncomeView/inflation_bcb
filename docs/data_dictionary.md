@@ -1,3 +1,5 @@
+> data_dictionary.md
+
 # bcb.ipca_geral
 
 Fonte:

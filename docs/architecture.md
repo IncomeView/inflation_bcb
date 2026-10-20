@@ -1,38 +1,38 @@
 # Arquitetura
 
+## Objetivo
+
+Construir uma camada analítica para inflação e juros no Brasil.
+
 ## Fontes
 
-- Banco Central (SGS)
-- Banco Central (Meta Selic)
-- SIDRA IBGE
+- Banco Central do Brasil (SGS)
+- SIDRA / IBGE
 
-## Pipeline
+## Tecnologias
 
-api
-  ↓
-pipelines
-  ↓
-parquet
-  ↓
-quarto
-superset
+- Python
+- Pandas
+- SQLAlchemy
+- PostgreSQL
+- Quarto
+- Superset
+
+## Estrutura
+
+* src/
+    - ├── api
+    - ├── core
+    - ├── database
+    - ├── domain
+    - ├── pipelines
+    - └── services
 
 ## Camadas
 
-api
-    Coleta de dados
-
-database
-    Persistência
-
-pipelines
-    Transformação
-
-domain
-    Conceitos econômicos
-
-services
-    Regras de negócio
-
-core
-    Infra compartilhada
+* api → Coleta
+* domain → Regras econômicas
+* core → Infraestrutura
+* database → Persistência
+* pipelines → Orquestração
+* reports → Publicação

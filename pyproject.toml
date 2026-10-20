@@ -19,6 +19,7 @@ known-first-party = ["src"]
 pythonpath = ["."]
 testpaths = ["tests"]
 addopts = "-q"
+markers = ["database: testes que dependem do banco de dados"]
 
 [tool.mypy]
 python_version = "3.12"
