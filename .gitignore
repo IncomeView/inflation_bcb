@@ -52,3 +52,10 @@ artifacts/
 # OS
 .DS_Store
 Thumbs.db
+
+# arquivos
+docs/generate_knowledge_base.py
+docs/generate_notebooks_kb.py
+docs/NOTEBOOKS_KNOWLEDGE_BASE.md
+docs/PROJECT_KNOWLEDGE_BASE.md
+notebooks/off/
