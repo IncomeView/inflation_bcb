@@ -1,263 +1,424 @@
-## 🌎 Inflation Analytics – Brasil
-IPCA • SELIC • BCB/SGS • IBGE/SIDRA • PostgreSQL • Pipelines Reprodutíveis • Notebooks Educacionais
+# 🌎 Inflation Analytics – Brasil
+### Macroeconomic Analytics • Inflation Intelligence • Data Engineering • Economic Modeling
+
+>Este projeto demonstra a construção de uma plataforma analítica
+de inflação brasileira, desde a coleta dos dados oficiais até a
+modelagem estatística e machine learning para previsão e interpretação
+das dinâmicas inflacionárias.
+
+<br>
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=plastic&logo=python&logoColor=white)]()
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?style=plastic&logo=postgresql&logoColor=white)]()
-[![SQL Advanced](https://img.shields.io/badge/Data_Enginnering-SQL_Advanced-4B8BBE?style=plastic&logo=postgresql&logoColor=white)]()  
+[![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-Database-D71F00?style=plastic)]()
+[![Pandas](https://img.shields.io/badge/Pandas-Analytics-150458?style=plastic&logo=pandas&logoColor=white)]()  
+[![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=plastic&logo=docker&logoColor=white)]()
+[![Makefile](https://img.shields.io/badge/Makefile-Automation-427819?style=plastic)]()
+[![Quarto](https://img.shields.io/badge/Quarto-Reports-39729E?style=plastic)]()
+[![Superset](https://img.shields.io/badge/Superset-Dashboards-20A6C9?style=plastic)]()  
 [![Black](https://img.shields.io/badge/Black-Formatter-000000?style=plastic&logo=python&logoColor=white)]()
-[![Ruff](https://img.shields.io/badge/Ruff-Linter-D00000?style=plastic&logo=ruff&logoColor=white)]()
-[![CI/CD](https://img.shields.io/badge/GitHub_Actions-CI%2FCD-2088FF?style=plastic&logo=githubactions&logoColor=white)]()  
-[![BCB SGS](https://img.shields.io/badge/BCB-SGS-F28C28?style=plastic)]()
+[![Ruff](https://img.shields.io/badge/Ruff-Linter-D00000?style=plastic)]()
+[![PyTest](https://img.shields.io/badge/PyTest-Tested-0A9EDC?style=plastic&logo=pytest&logoColor=white)]()
+[![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI%2FCD-2088FF?style=plastic&logo=githubactions&logoColor=white)]()  
 [![IBGE SIDRA](https://img.shields.io/badge/IBGE-SIDRA-2E8B57?style=plastic)]()
+[![BCB SGS](https://img.shields.io/badge/BCB-SGS-F28C28?style=plastic)]()  
 
 <br>
 
-## 📌 Visão Geral
 
-Este repositório reúne engenharia de dados, macroeconomia aplicada e ciência de dados para construir uma infraestrutura completa de análise da inflação brasileira.
+## 🚀 Highlights
 
-Ele foi projetado para:
+✅ Coleta automatizada de dados do IBGE/SIDRA  
+✅ Plataforma de Analytics Macroeconômico  
+✅ Banco analítico PostgreSQL  
+✅ Taxonomia econômica proprietária  
+✅ Pipeline reprodutível de inflação e juros  
+✅ Indicadores avançados de dinâmica inflacionária  
+✅ Pipeline completo para Forecasting e Machine Learning  
+✅ Observabilidade operacional (Audit + Health Check)  
+✅ CI/CD e testes automatizados  
+✅ Documentação técnica, operacional e econômica
 
-- coletar dados oficiais do IBGE/SIDRA e BCB/SGS  
-- armazenar séries históricas em PostgreSQL  
-- criar pipelines reprodutíveis  
-- gerar notebooks educacionais  
-- construir modelos estatísticos e de machine learning  
-- produzir dashboards e relatórios econômicos
+* **Este projeto fo desenvolvido para demonstrar competências em:**
+
+    - Engenharia de Dados
+    - Analytics
+    - Ciência de Dados
+    - Econometria
+    - Machine Learning
+    - Macroeconomia Aplicada
+    - Arquitetura de Dados
 
 <br>
 
-## 🧭 Sumário
 
-1. Visão Geral  
-2. Arquitetura  
-3. Tecnologias  
-4. Estrutura do Repositório  
-5. Banco de Dados  
-6. APIs Integradas  
-7. Pipelines  
-8. Notebooks Educacionais  
-9. Qualidade de Código  
-10. Testes Automatizados  
-11. Como Executar  
-12. Roadmap  
-13. Filosofia  
+## Plataforma Analítica de Inflação Brasileira
+
+Projeto de engenharia de dados, macroeconomia aplicada e analytics desenvolvido para transformar dados públicos do IBGE e Banco Central em inteligência econômica reutilizável.
+
+O objetivo não é apenas reproduzir indicadores oficiais, mas construir uma camada analítica capaz de responder:
+
+- Quanto foi a inflação?
+- Onde ocorreram as pressões inflacionárias?
+- Como a inflação se espalha pela economia?
+- Quais grupos impactam mais o orçamento das famílias?
+- Qual a participação de serviços, bens industriais e preços monitorados?
+- Como a inflação evolui em relação à política monetária?
+
+<br>
+
+## 📊 Problema de Negócio
+
+Os indicadores econômicos oficiais são públicos, mas normalmente estão fragmentados entre diferentes fontes e formatos.
+
+Este projeto integra:
+
+- Banco Central do Brasil (SGS)
+- IBGE / SIDRA
+- PostgreSQL
+- Relatórios Analíticos
+- Dashboards
+- Estudos Econômicos
+
+em um fluxo único capaz de produzir inteligência analítica sobre a inflação brasileira.
+
 
 <br>
 
 ## 🏗 Arquitetura
 
-Fluxo principal:
-
+```text
+         ┌───────────────────────┐
+         │     IBGE / SIDRA      │
+         └──────────┬────────────┘
+                    │
+                    ▼
+                 src/api
+                    │
+                    ▼
+              src/pipelines
+                    │
+                    ▼
+                PostgreSQL
+                    │
+    ┌───────────────┼───────────────┐
+    │               │               │
+    ▼               ▼               ▼
+             
+  Views          Quarto          Superset
+Analíticas     Relatórios       Dashboards
+             
+                    │
+                    ▼
+             
+            Inflation Analytics
 ```
-IBGE/SIDRA → Pipelines IPCA → PostgreSQL → Notebooks → Modelos
-BCB/SGS   → Pipelines SELIC → PostgreSQL → Notebooks → Dashboards
-```
-
-Componentes:
-
-- API Clients  
-- Pipelines ETL  
-- PostgreSQL  
-- Notebooks analíticos  
-- Modelos estatísticos e ML  
-- Relatórios e dashboards  
-- Testes + pre-commit  
 
 <br>
 
-## 🛠 Tecnologias
+## 🧠 Capacidades Analíticas
 
-| Stack | Tec |
-|-|-|
-| **Linguagem** | $\to \qquad$ Python 3.12 |
-| **Banco de Dados** | $\to \qquad$ PostgreSQL <br> $\to \qquad$ SQLAlchemy |
-| **APIs** | $\to \qquad$ IBGE/SIDRA <br> $\to \qquad$ BCB/SGS |
-| **Qualidade** | $\to \qquad$ Black <br> $\to \qquad$ Ruff <br> $\to \qquad$ Pre-commit |  
-| **Visualização** | $\to \qquad$ Matplotlib <br> $\to \qquad$ Seaborn |  
-| **Infra** | $\to \qquad$ Dockerfile <br> $\to \qquad$ .env |  
+O projeto evolui da coleta de dados para análises econômicas em múltiplos níveis.
+
+- **Inflação**
+    - IPCA Geral
+    - Grupos
+    - Subgrupos
+    - Itens
+    - Subitens
+
+- **Decomposição**
+    - Reconstrução do IPCA
+    - Contribuição
+    - Impacto
+    - Hierarquia completa
+
+- **Dinâmica Inflacionária**
+    - Difusão
+    - Dispersão
+    - Concentração
+    - Persistência
+    - Momentum
+    - Pressões inflacionárias
+
+- **Blocos Macroeconômicos**
+    - Alimentação no domicílio
+    - Alimentação fora do domicílio
+    - Serviços
+    - Bens industriais
+    - Preços monitorados
+
+- **Política Monetária**
+    - SELIC Meta
+    - SELIC Over
+    - Correlações entre inflação e juros
 
 <br>
 
-## 🌳 Estrutura do Repositório
+## 📚 Roadmap Analítico
+
+### Fase 1 — Construção e Estrutura
+
+00. **Auditoria dos Dados**
+
+01. **SELIC**
+
+02. **IPCA Geral**
+    - 02.01. IPCA por Grupos
+    - 02.02. IPCA por Subgrupos
+    - 02.03. IPCA por Itens
+    - 02.04. IPCA por Subitens
+
+03. **Decomposição da Inflação**
+
+04. **Dinâmica Inflacionária**
+
+05. **Blocos Macroeconômicos**
+
+
+### Fase 2 — Política Monetária
+
+06. **IPCA e Política Monetária**
+
+    - Objetivos:
+
+        - SELIC vs inflação
+        - Defasagens
+        - Impacto dos juros
+        - Transmissão monetária
+        - Relação juros-preços
+
+
+### Fase 3 — Modelagem
+
+07. **Feature Engineering**
+
+    - Objetivos:
+
+        - construção de features
+        - lags
+        - rolling windows
+        - indicadores de difusão
+        - indicadores macroeconômicos
+
+08. **Baseline**
+
+    - Objetivos:
+
+        - previsões ingênuas
+        - média histórica
+        - random walk
+        - benchmark para modelos
+
+09. **Modelos Estatísticos**
+
+    - Objetivos:
+
+        - regressões
+        - ARIMA
+        - SARIMA
+        - VAR
+        - VECM
+
+10. **Machine Learning**
+
+    - Objetivos:
+
+        - Random Forest
+        - XGBoost
+        - LightGBM
+        - modelos híbridos
+
+11. **Avaliação**
+
+    - Objetivos:
+
+        - MAE
+        - RMSE
+        - Backtesting
+        - Comparação de modelos
+        - Robustez temporal
+
+<br>
+
+## ⚙️ Stack Tecnológica
+
+| Camada | Tecnologias |
+|----------|----------|
+| Linguagem | Python 3.12 |
+| Dados | Pandas, NumPy |
+| Banco | PostgreSQL, SQLAlchemy |
+| APIs | IBGE SIDRA, BCB SGS |
+| Visualização | Matplotlib, Seaborn |
+| Relatórios | Quarto |
+| Dashboard | Superset |
+| Qualidade | Ruff, Black, PyTest |
+| Automação | GitHub Actions |
+| Infraestrutura | Docker, Docker Compose |
+
+<br>
+
+## 🌳 Estrutura do Projeto
 
 ```text
-.
-├── notebooks/
-│   ├── 01_selic.ipynb
-│   ├── 02_ipca.ipynb
-│   ├── 02.01_ipcaAlimentacao.ipynb
-│   ├── 03_decomposicao.ipynb
-│   ├── 04_analises_avancadas.ipynb
-│   ├── 05_ipca_vs_selic.ipynb
-│   ├── 06_blocos_macro.ipynb
-│   ├── 07_curva_phillips.ipynb
-│   ├── 08_modelos_estatisticos.ipynb
-│   ├── 09_modelos_ml.ipynb
-│   └── 10_dashboard.ipynb
-│
-├── src/
-│   ├── api/
-│   │   ├── sidra_client.py
-│   │   ├── bcb_client.py
-│   │   └── sgs_series.py
-│   ├── pipelines/
-│   │   ├── ipca.py
-│   │   ├── ipca_alimentacao.py
-│   │   ├── ipca_habitacao.py
-│   │   ├── selic_meta.py
-│   │   └── selic_over.py
-│   ├── database/
-│   │   ├── connection.py
-│   │   └── load.py
-│   └── utils/
-│       ├── logging.py
-│       └── cache.py
-│
-├── data/
-│   ├── raw/
-│   ├── processed/
-│   └── external/
-│
-├── logs/
-│   └── pipeline.log
-│
-├── tests/
-├── requirements.txt
-├── pyproject.toml
-└── README.md
+    src
+    ├── api
+    ├── config
+    ├── core
+    ├── database
+    ├── domain
+    ├── pipelines
+    ├── services
+    └── utils
+
+    tests
+    ├── unitários
+    └── data_quality
+
+    docs
+    ├── architecture.md
+    ├── data_dictionary.md
+    ├── pipeline.md
+    └── runbook.md
 ```
 
 <br>
 
-## 🗄 Banco de Dados
+## 🔍 Governança e Qualidade
 
-| Banco | Tec |
-|-|-|
-| **Conexão** | $\to \qquad$ `src/database/connection.py` |
-| **Criação e inserção** | $\to \qquad$ `src/database/load.py` |
-| **Funções:** | $\to \qquad$ ensure_table() <br> $\to \qquad$ insert_all()  
+O projeto implementa mecanismos de proteção e validação da informação.
 
-<br>
+- **Qualidade de Código**
 
-## 🌐 APIs Integradas
+    - Ruff
+    - Black
+    - Pre-Commit
 
-### IBGE/SIDRA  
-- Tabelas 1737, 1419, 7060  
-- IPCA geral, grupos, subgrupos, itens e subitens  
+- **Testes**
 
-### BCB/SGS  
-- SELIC meta  
-- SELIC over  
-- Outras séries monetárias  
+    - Testes unitários
+    - Testes estruturais
+    - Testes de qualidade dos dados
 
-<br>
+- **Operação**
 
-## 🔄 Pipelines
-
-| Pipeline | Tec |
-|-|-|
-| IPCA Geral | $\to \qquad$ `src/pipelines/ipca.py` |
-| IPCA – Grupos | $\to \qquad$ `src/pipelines/ipca_grupos.py` |
-| IPCA – Sub-Grupos | $\to \qquad$ `src/pipelines/ipca_subgrupos.py` |
-| IPCA – Itens | $\to \qquad$ `src/pipelines/ipca_itens.py` |
-| IPCA – Sub-Itens | $\to \qquad$ `src/pipelines/ipca_subitens.py` |
-| SELIC | $\to \qquad$ `src/pipelines/selic_meta.py` <br> $\to \qquad$ `src/pipelines/selic_over.py` |
+    - `validate_df()`
+    - `safe_replace()`
+    - `health_check()`
+    - `audit()`
 
 <br>
 
-## 📓 Notebooks Educacionais
+## 📋 Documentação
 
-Cada notebook combina:
+A documentação é mantida dentro do próprio repositório.
 
-- explicação econômica  
-- consulta ao banco  
-- gráficos profissionais  
-- análises interpretáveis  
-
-Exemplos:
-
-- NB3 – Decomposição do IPCA  
-- NB4 – Difusão, núcleos, momentum  
-- NB5 – IPCA vs SELIC (defasagens, VAR)  
-- NB7 – Curva de Phillips  
-- NB9 – Machine Learning  
-
-<br>
-
-## 🧹 Qualidade de Código
-
-- Black (formatação)  
-- Ruff (linting)  
-- Pre-commit (automação)  
-
-Rodar:
-
-```
-pre-commit run --all-files
-```
-
-<br>
-
-## 🧪 Testes Automatizados
-
-Pasta:
-
-```
-tests/
-```
-
-Testes garantem:
-
-- integridade dos pipelines  
-- importabilidade dos módulos  
-- consistência das funções  
-
-Rodar:
-
-```
-pytest
-```
+| Documento | Finalidade |
+|------------|------------|
+| architecture.md | arquitetura técnica |
+| pipeline.md | fluxo operacional |
+| data_dictionary.md | catálogo dos dados |
+| runbook.md | guia operacional |
 
 <br>
 
 ## ▶️ Como Executar
 
-| Ação | Execução |
-|-|-|
-| 1. Criar ambiente | $\to \qquad$ python -m venv .venv <br> $\to \qquad$ source .venv/bin/activate |
-| 2. Instalar dependências | $\to \qquad$ pip install -r requirements.txt |
-| 3. Configurar .env | $\to \qquad$ cp .env.example .env |
-| 4. Rodar pipeline | $\to \qquad$ from src.pipelines.ipca import run_ipca <br> $\to \qquad$ run_ipca() |
-| 5. Abrir notebooks | $\to \qquad$ jupyter lab |
+1. **Criar ambiente**
+
+```bash
+    python -m venv .venv
+    source .venv/bin/activate
+```
+
+2. **Instalar dependências**
+
+```bash
+    pip install -r requirements.txt
+```
+
+3. **Configurar ambiente**
+
+```bash
+    cp .env.example .env
+```
+
+4. **Atualizar dados**
+
+```bash
+    python -m src.main
+```
+
+5. **Executar testes**
+
+```bash
+    pytest
+```
+
+6. **Executar auditoria**
+
+```bash
+    python -m src.services.audit
+```
+
+7. **Gerar relatórios**
+
+```bash
+quarto render
+```
 
 <br>
 
-## 🧭 Roadmap
+## 📈 Evolução Planejada
 
-### Próximos passos
+- **Analytics**
 
-- Painel consolidado dos 9 grupos do IPCA  
-- Modelos híbridos (VAR + ML)  
-- Dashboard em Streamlit  
-- Exportação automática de relatórios  
-- Monitoramento contínuo (cron + logs)  
+    - Núcleos de inflação
+    - Índices de difusão avançados
+    - Indicadores proprietários
+
+- **Econometria**
+
+    - VAR
+    - VECM
+    - Cointegração
+    - Curva de Phillips
+
+- **Machine Learning**
+
+    - Forecasting de inflação
+    - Modelos híbridos
+    - Feature Engineering macroeconômico
+
+- **Visualização**
+
+    - Dashboards executivos
+    - Monitoramento contínuo
+    - Relatórios automáticos
 
 <br>
 
-## 🧠 Filosofia
 
-### 1. Rigor técnico  
-Pipelines reprodutíveis, logs, testes, banco relacional.
+## ⭐ Principais Aprendizados Demonstrados
 
-### 2. Transparência  
-Notebooks explicativos, gráficos claros, documentação.
-
-### 3. Extensibilidade  
-Arquitetura modular, fácil de evoluir.
+- Arquitetura de dados em Python
+- ETL e ingestão de APIs públicas
+- PostgreSQL e modelagem analítica
+- Automação de pipelines
+- Testes e qualidade de software
+- Observabilidade operacional
+- Modelagem econômica
+- Análise quantitativa
+- Documentação técnica
+- Construção de produtos analíticos
 
 <br>
 
-## ✔️ Conclusão
+## 📌 Status
 
-Este repositório é uma infraestrutura completa de dados macroeconômicos, combinando engenharia, economia e ciência de dados — ideal para estudos, ensino, pesquisa e aplicações profissionais.
+**Projeto em desenvolvimento ativo.**
+
+Atualmente o repositório representa uma plataforma analítica para estudo da inflação brasileira, combinando engenharia de dados, modelagem econômica e analytics aplicados.  
+Acredito que essa versão funciona muito melhor como portólio.
+
+
