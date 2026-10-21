@@ -1,8 +1,11 @@
 # test_database_quality.py
 
 import pandas as pd
+import pytest
 
 from src.database.connection import engine
+
+pytestmark = pytest.mark.database
 
 
 def test_ipca_geral_not_empty():

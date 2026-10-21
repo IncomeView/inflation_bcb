@@ -36,4 +36,4 @@ jobs:
 
       - name: Run tests (pytest)
         run: |
-          pytest -q
+          pytest -m "not database"
