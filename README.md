@@ -52,7 +52,7 @@ das dinâmicas inflacionárias.
 <br>
 
 
-## Plataforma Analítica de Inflação Brasileira
+## 📌 Plataforma Analítica de Inflação Brasileira
 
 Projeto de engenharia de dados, macroeconomia aplicada e analytics desenvolvido para transformar dados públicos do IBGE e Banco Central em inteligência econômica reutilizável.
 
@@ -399,7 +399,7 @@ quarto render
 <br>
 
 
-## ⭐ Principais Aprendizados Demonstrados
+## 👤 Principais Aprendizados Demonstrados
 
 - Arquitetura de dados em Python
 - ETL e ingestão de APIs públicas
@@ -414,7 +414,7 @@ quarto render
 
 <br>
 
-## 📌 Status
+## ⭐ Status
 
 **Projeto em desenvolvimento ativo.**
 
