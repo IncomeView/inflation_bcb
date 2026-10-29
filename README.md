@@ -1,4 +1,4 @@
-# 🌎 Inflation Analytics – Brasil
+# 🌎 Inflation Analytics – Brazil
 ### Macroeconomic Analytics • Inflation Intelligence • Data Engineering • Economic Modeling
 
 >Este projeto demonstra a construção de uma plataforma analítica
