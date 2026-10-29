@@ -54,7 +54,5 @@ artifacts/
 Thumbs.db
 
 # arquivos
-docs/_generate_knowledge_base.py
-docs/_generate_notebooks_kb.py
 docs/_NOTEBOOKS_KNOWLEDGE_BASE.md
 docs/_PROJECT_KNOWLEDGE_BASE.md
