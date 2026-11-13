@@ -3,7 +3,7 @@ export
 
 PYTHON=python
 
-run-all:
+all:
 	$(PYTHON) -m src.pipelines.run_all
 
 ipca-geral:

@@ -1,3 +1,5 @@
+# src/api/ipca_series.py
+
 import pandas as pd
 
 from src.api.sidra_client import sidra_query

@@ -1,11 +1,11 @@
-# 002_create_views
+-- 002_create_views
 
 /*
 -----------------------------------------
-VIEW IPCA GRUPOS POR SUBITENS
+VIEW IPCA SUBITENS DESDOBRAMENTOS
 -----------------------------------------
 */
-create or replace view bcb.vw_ipca_grupos_por_subitens as
+create or replace view bcb.vw_ipca_subitens_desdobramentos as
 with
 subgrupo as(
 	select
@@ -13,8 +13,10 @@ subgrupo as(
 		sg.categoria 					as subgrupo_id,
 		sg.categoria_nome 				as subgrupo_nome,
 		sg."date",
-		sg.indice						as ipca_subgrupos,
-		sg.indice * (sg.peso / 100)		as ipca_subgrupos_contribuicao
+		sg.indice						as subgrupo_indice,
+        sg.peso							as subgrupo_peso,
+		sg.indice * (sg.peso / 100)		as subgrupo_contribuicao,
+        abs(sg.indice * (sg.peso / 100))	as subgrupo_impacto
 	from bcb.ipca_subgrupos sg
 ),
 item as(
@@ -23,8 +25,10 @@ item as(
 		ii.categoria 					as item_id,
 		ii.categoria_nome		 		as item_nome,
 		ii.date,
-		ii.indice						as ipca_itens,
-		ii.indice * (ii.peso / 100)		as ipca_itens_contribuicao
+		ii.indice						as item_indice,
+        ii.peso							as item_peso,
+		ii.indice * (ii.peso / 100)		as item_contribuicao,
+        abs(ii.indice * (ii.peso / 100))	as item_impacto
 	from bcb.ipca_itens ii
 ),
 subitem as(
@@ -33,22 +37,25 @@ subitem as(
 		si.categoria 					as subitem_id,
 		si.categoria_nome 				as subitem_nome,
 		si.date,
-		si.indice						as ipca_subitens,
-		si.indice * (si.peso / 100)		as ipca_subitens_contribuicao
+		si.indice						as subitem_indice,
+        si.peso							as subitem_peso,
+		si.indice * (si.peso / 100)		as subitem_contribuicao,
+        abs(si.indice * (si.peso / 100))	as subitem_impacto
 	from bcb.ipca_subitens si
 )
 select
 	g."date"::date,
 	i.nindice							as ipca_nindice,
 	i.indice							as ipca_mensal,
-	g.indice							as ipca_grupos,
-	sg.ipca_subgrupos, ii.ipca_itens, si.ipca_subitens,
+    si.subitem_id, si.subitem_nome ,si.subitem_indice, si.subitem_peso, si.subitem_contribuicao, si.subitem_impacto,
+    ii.item_id, ii.item_nome, ii.item_indice, ii.item_peso, ii.item_contribuicao, ii.item_impacto, 
+    sg.subgrupo_id, sg.subgrupo_nome, sg.subgrupo_indice, sg.subgrupo_peso, sg.subgrupo_contribuicao, sg.subgrupo_impacto,
+    g.categoria							as grupo_id,
+	g.categoria_nome					as grupo_nome,
+    g.indice							as grupo_indice,
+    g.peso								as grupo_peso,
 	g.indice * (g.peso / 100)			as ipca_grupos_contribuicao,
-	sg.ipca_subgrupos_contribuicao, ii.ipca_itens_contribuicao, si.ipca_subitens_contribuicao,
-	g.categoria							as grupo_id,
-	sg.subgrupo_id, ii.item_id, si.subitem_id,
-	g.categoria_nome						as grupo_nome,
-	sg.subgrupo_nome, ii.item_nome, si.subitem_nome
+    abs(g.indice * (g.peso / 100))		as ipca_grupos_impacto
 from bcb.ipca_grupos g
 left join bcb.ipca_geral i on g."date" = i."date"
 left join subgrupo sg on sg."grupo_id" = g."categoria" and sg.date = g."date"
@@ -59,7 +66,7 @@ order by g."date" desc;
 
 /*
 -----------------------------------------
-VIEW BLOCOS ECONOMICOS
+VIEW IPCA HIERARQUIA
 -----------------------------------------
 */
 CREATE OR REPLACE VIEW bcb.vw_ipca_hierarquia AS

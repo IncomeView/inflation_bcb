@@ -1,4 +1,4 @@
-# base.py
+# src/pipelines/ipca/base.py
 
 import pandas as pd
 
